@@ -1,0 +1,13 @@
+<h1>Todo List</h1>
+<h2>Create Job</h2>
+<input #myTitle placeholder="job title"/>
+<input type="date" #myDate/>
+<input #myContent placeholder="job content"/>
+<button (click)="addJob(myTitle.value,convertDate(myDate.value),myContent.value); myTitle.value='';myDate.value='';myContent.value=''">Create</button>
+<table>
+    <tr><td>title</td><td>date</td><td>content</td></tr>
+    <tr *ngFor="let i of myJob"><td>{{i.title}}</td><td>{{i.date}}</td><td>{{i.content}}</td><td><button (click)="removeJob(i)">Delete</button></td><app-edit-job [theJob]="i"></app-edit-job></tr>
+</table>
+<input #searcher placeholder="job title/date/content"/>
+<button (click)="search=searcher.value">search</button>
+<button (click)="search='';searcher.value=''">reset</button>
