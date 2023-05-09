@@ -1,0 +1,15 @@
+<h1>Todo List</h1>
+<router-outlet></router-outlet>
+
+<h2>Create Job</h2>
+<input #myTitle placeholder="job title"/>
+<input #myDate placeholder="job date"/>
+<input #myContent placeholder="job content"/>
+<button (click)="addJob(myTitle.value,myDate.value,myContent.value); myTitle.value='';myDate.value='';myContent.value=''">Create</button>
+<table>
+    <tr><td>num</td><td>title</td><td>date</td><td>content</td><td>done</td></tr>
+    <tr *ngFor="let i of myJob"><td>{{i.id}}</td><td>{{i.title}}</td><td>{{i.date}}</td><td>{{i.content}}</td><td>{{i.done}}</td><td><button (click)="removeJob(i.id)">Delete</button></td><app-edit-job [theJob]="i"></app-edit-job></tr>
+</table>
+<input #searcher placeholder="job id"/>
+<button (click)="searchJob(searcher.value)">search</button>
+<button onClick="window.location.reload()">reset</button><br>

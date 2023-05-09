@@ -1,0 +1,10 @@
+<h1>Map</h1>
+<input #p1 placeholder="p1"/>
+<input #p2 placeholder="p2"/>
+<input #p3 placeholder="text"/>
+<button (click)="addMarker(p1.value,p2.value,p3.value); p1.value='';p2.value='';p3.value=''">send</button>
+<div class="map-container">
+    <div class="map-frame">
+      <div id="map"></div>
+    </div>
+</div>

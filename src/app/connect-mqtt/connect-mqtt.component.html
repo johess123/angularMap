@@ -1,0 +1,9 @@
+<h1>Mqtt</h1>
+<router-outlet></router-outlet>
+<input #sender placeholder="send message"/>
+<button (click)="sendMqtt(sender.value);sender.value=''">send</button>
+<h2>Message</h2>
+<table>
+    <tr><td>No.</td><td>Text</td></tr>
+    <tr *ngFor="let text of message;let i = index"><td>{{i+1}}</td><td>{{text}}</td></tr>
+</table>

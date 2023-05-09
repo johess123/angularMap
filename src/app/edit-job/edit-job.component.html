@@ -4,8 +4,8 @@
 
 <div *ngIf="display">
 <input #myTitle placeholder="job title"/>
-<input type="date" #myDate/>
+<input #myDate placeholder="job date"/>
 <input #myContent placeholder="job content"/>
-<button (click)="editJob(myTitle.value,convertDate(myDate.value),myContent.value); myTitle.value='';myDate.value='';myContent.value=''">Edit</button>
+<button (click)="editJob(myTitle.value,myDate.value,myContent.value); myTitle.value='';myDate.value='';myContent.value=''">Edit</button>
 <button (click)="display=!display">Cancel</button>
 </div>
