@@ -24,7 +24,7 @@ import { LeafmapComponent } from './leafmap/leafmap.component';
     AppRoutingModule,
     HttpClientModule,
     MqttModule.forRoot({
-      hostname: '192.168.100.1', // broker.hivemq.com
+      hostname: '163.22.17.184', // broker.hivemq.com
       port: 9001, // 8000
       protocol:'ws',
       path: '/mqtt'

@@ -4,6 +4,17 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class DataService {
     constructor(private http: HttpClient) {}
+    getMap() {
+	const httpOptions = {
+		headers: new HttpHeaders({
+		'Content-Type': 'application/json',
+		'Authorization': 'Bearer ' + localStorage.getItem('token'),
+		'Access-Control-Alllow-Origin': '*',
+		'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE"'
+                })
+	    };
+	    return this.http.post('http://163.22.17.184/getMap.php', httpOptions);
+    }
     getData() {
         const httpOptions = {
 	        headers: new HttpHeaders({

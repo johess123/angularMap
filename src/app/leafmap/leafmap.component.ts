@@ -3,30 +3,49 @@ import * as L from 'leaflet';
 import { icon, Marker } from 'leaflet';
 import { MqttService } from 'ngx-mqtt';
 import { DataService } from '../data.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-leafmap',
   templateUrl: './leafmap.component.html',
-  styleUrls: ['./leafmap.component.css']
+  styleUrls: ['./leafmap.component.css'],
+  providers:[DatePipe]
 })
 
 export class LeafmapComponent{
   map:any;
   newMark:string="";
+  oldMark1:string[]=[];
   MarkList:string[]=[];
   allMark:any[] = [];
-  constructor(private dataService: DataService,private mqttService: MqttService) {}
+  constructor(private dataService: DataService,private mqttService: MqttService,private datePipe:DatePipe) {}
   ngOnInit() {
+    // get old mark
+    this.dataService.getMap().subscribe((data)=>{
+        //console.log(data);
+	const oldMark = Object.entries(data);
+	
+	for (let i = 0; i < oldMark.length; i++) {
+	      this.oldMark1 = Object.values(oldMark[i][1]);
+              //for (let j = 0; j < oldMark1.length;j++) {
+	          //console.log(typeof(oldMark1[j]));
+	      //}
+	      //console.log(typeof(oldMark1[1]));
+	      this.addMarker(this.oldMark1[1],this.oldMark1[2],this.oldMark1[3]+" "+this.oldMark1[4]);
+	}
+    });
+   
     // get coordinate from mqtt
     this.mqttService.connect();
-    this.mqttService.observe('Rocky').subscribe((message)=>{ // topic:testxamarin
+    this.mqttService.observe('angularMap').subscribe((message)=>{ // topic:testxamarin
       //console.log(message.payload.toString());
       this.newMark = message.payload.toString();
       this.MarkList = this.newMark.split(",");
-      //const mark = {p1:this.MarkList[0],p2:this.MarkList[1],text:this.MarkList[2]};
+      //const mark = {p1:this.MarkList[0],p2:this.MarkList[1],text:this.MarkList[2],date:this.MarkList[3]};
       //this.dataService.storeMqttMap(mark).subscribe(response=>{
       //});
-      // call addMarker function to add mark
+
+      // call addMarker function to draw mark
       this.addMarker(this.MarkList[0],this.MarkList[1],this.MarkList[2]);
     });
     const iconRetinaUrl = 'assets/marker-icon-2x.png';
@@ -58,6 +77,14 @@ export class LeafmapComponent{
       .bindPopup("<h1>管院在這裡</h1>");
     marker1.openPopup();
     tiles.addTo(this.map);
+  }
+  userAddMark(p1:string,p2:string,text:string) {
+    const now = new Date();
+    const now1 = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Taipei" }));
+    const now2 = this.datePipe.transform(now1, 'yyyy-MM-dd HH:mm:ss');
+    //console.log(now2);
+    //console.log(text+" "+now2);
+    this.addMarker(p1,p2,text+" "+now2);
   }
   addMarker(p1:string,p2:string,text:string) {
     // add mark
